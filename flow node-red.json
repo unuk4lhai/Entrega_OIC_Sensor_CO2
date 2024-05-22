@@ -1,0 +1,159 @@
+[
+    {
+        "id": "6d8c9b0553582c56",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "eec54ad312d82c4a",
+        "type": "mqtt in",
+        "z": "6d8c9b0553582c56",
+        "name": "CO2 subscriber",
+        "topic": "TESTMACK1165744/CO2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fd25ab60b5afee5e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "d9b874a513a6861a",
+                "2e2920b350dcabe7",
+                "97081bc37617e8fc"
+            ]
+        ]
+    },
+    {
+        "id": "d9b874a513a6861a",
+        "type": "debug",
+        "z": "6d8c9b0553582c56",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2e2920b350dcabe7",
+        "type": "influxdb out",
+        "z": "6d8c9b0553582c56",
+        "influxdb": "2cdb92fcb2408d51",
+        "name": "InfluxDB",
+        "measurement": "CO2",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "79419181125ba221",
+        "bucket": "bucket_CO2",
+        "x": 440,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e54693659a20d801",
+        "type": "node-red-contrib-whatsapp-cmb-send-message",
+        "z": "6d8c9b0553582c56",
+        "name": "",
+        "credtype": "account",
+        "account": "98b6aeb56013fe4b",
+        "text": "A quantidade de gás carbônico presente no ar ao seu redor está prejudicando a sua saúde, abra as janelas e ventile o ambiente.",
+        "phonenumbervalue": "",
+        "apikeyvalue": "",
+        "apikeyinputtypemessage": "msg",
+        "phonenumberinputtypemessage": "msg",
+        "inputtypemessage": "str",
+        "rejectssl": false,
+        "x": 720,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "97081bc37617e8fc",
+        "type": "function",
+        "z": "6d8c9b0553582c56",
+        "name": "verifica > 1000",
+        "func": "if (msg.payload > 1000){\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "e54693659a20d801"
+            ]
+        ]
+    },
+    {
+        "id": "fd25ab60b5afee5e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "2cdb92fcb2408d51",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "InfluxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://us-east-1-1.aws.cloud2.influxdata.com",
+        "timeout": "10",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "98b6aeb56013fe4b",
+        "type": "node-red-contrib-whatsapp-cmb-account",
+        "name": "matheus"
+    }
+]
